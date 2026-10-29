@@ -1,6 +1,8 @@
 import sonrisappDashboard from '../assets/projects/sonrisapp/dashboard.jpeg'
 import sonrisappInventario from '../assets/projects/sonrisapp/inventario.jpeg'
 import sonrisappOdontograma from '../assets/projects/sonrisapp/odontograma.jpeg'
+import voxpayCobro from '../assets/projects/voxpay/cobro.jpeg'
+import voxpayDashboard from '../assets/projects/voxpay/dashboard.jpeg'
 import voxpayLogin from '../assets/projects/voxpay/login.jpeg'
 import invictoDashboard from '../assets/projects/invicto/dashboard.jpeg'
 import invictoLogin from '../assets/projects/invicto/login.jpeg'
@@ -154,7 +156,9 @@ export const projects: Project[] = [
     repo: 'https://github.com/Rondnt/VoxPay-Stellar',
     live: 'https://voxpay--voxpay-gj.us-central1.hosted.app',
     images: [
-      { src: voxpayLogin, alt: 'Pantalla de inicio de VoxPay' },
+      { src: voxpayLogin, alt: 'Pantalla de inicio de sesión de VoxPay' },
+      { src: voxpayCobro, alt: 'Nuevo cobro por voz en VoxPay con la mascota Voxi' },
+      { src: voxpayDashboard, alt: 'Dashboard de VoxPay con los cobros del día en USDC' },
     ],
     featured: true,
   },
