@@ -36,6 +36,63 @@ html {
   scroll-margin-top: 4rem;
 }
 
+/* Entrance animations from Animista (FreeBSD License, animista.net).
+   In the components layer so [animation-delay:*] utilities can sequence them. */
+@keyframes fade-in-top {
+  0% {
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes scale-in-center {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-in-right {
+  0% {
+    transform: translateX(1000px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@layer components {
+  .fade-in-top {
+    animation: fade-in-top 0.6s cubic-bezier(0.39, 0.575, 0.565, 1) both;
+  }
+
+  .scale-in-center {
+    animation: scale-in-center 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  }
+
+  .slide-in-right {
+    animation: slide-in-right 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .fade-in-top,
+    .scale-in-center,
+    .slide-in-right {
+      animation: none;
+    }
+  }
+}
+
 /* Lenis: native smooth scrolling must be off while Lenis animates, or both fight. */
 html.lenis,
 html.lenis body {

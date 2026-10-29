@@ -87,7 +87,7 @@ export function Nav() {
   const reduce = useReducedMotion()
 
   return (
-    <header className="sticky top-0 z-20 border-b border-line/80 bg-paper/85 backdrop-blur-md">
+    <header className="fade-in-top sticky top-0 z-20 border-b border-line/80 bg-paper/85 backdrop-blur-md">
       <div className="grid h-16 grid-cols-[1fr_auto_1fr] items-center gap-4 px-4 md:px-8 lg:px-12">
         <a
           href="#inicio"
