@@ -1,4 +1,4 @@
-import { ArrowUpRight, EnvelopeSimple } from '@phosphor-icons/react'
+import { ArrowUpRight, WhatsappLogo } from '@phosphor-icons/react'
 import { motion, useReducedMotion } from 'motion/react'
 import { projects, site } from '../data/site'
 
@@ -40,10 +40,12 @@ export function Hero() {
             Ver proyectos
           </a>
           <a
-            href={`mailto:${site.email}`}
+            href={`${site.whatsapp}?text=${encodeURIComponent(site.whatsappMessage)}`}
+            target="_blank"
+            rel="noreferrer"
             className="inline-flex items-center gap-1.5 rounded-md border border-line px-5 py-2.5 text-sm font-medium transition-colors hover:bg-surface"
           >
-            <EnvelopeSimple size={16} weight="bold" />
+            <WhatsappLogo size={16} weight="bold" />
             Escríbeme
           </a>
           <a

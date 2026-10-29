@@ -24,7 +24,7 @@ export const site = {
   subhead:
     'Desarrollo software a medida, SaaS, plataformas web e integraciones de Inteligencia Artificial, agentes y chatbots.',
   about: [
-    'Soy José Alberto Rondón. Diseño y desarrollo software a medida, páginas web, tiendas online y plataformas SaaS multi‑tenant con automatización de IA, además de un sistema POS con cobro por voz sobre blockchain y soluciones industriales resilientes frente a caídas de red. Mi experiencia abarca CRM clínicas, catálogos e‑commerce con gestión de stock y analítica en vivo, y sistemas integrados para sectores como salud, restaurantes, gimnasios e industria.',
+    'Soy José Alberto Rondón. Diseño y desarrollo software a medida, páginas web, tiendas online y plataformas SaaS multi‑tenant con automatización de IA, además de un sistema POS con cobro por voz sobre blockchain y soluciones industriales resilientes frente a caídas de red. Mi experiencia abarca CRM para clínicas, catálogos e‑commerce con gestión de stock y analítica en vivo, y sistemas integrados para sectores como salud, restaurantes, gimnasios e industria.',
     'Domino arquitecturas backend (Node.js, Spring Boot, Java) y frontend (Next.js, React, Angular), junto con contratos inteligentes en Soroban (Stellar) e integración de agentes de Inteligencia Artificial. Mi enfoque es cerrar todo el ciclo del software: interfaces ágiles, datos en tiempo real y procesos automatizados que generan un impacto real en el negocio.',
   ],
   github: 'https://github.com/Rondnt',
@@ -32,6 +32,7 @@ export const site = {
   email: 'joserondon0319@gmail.com',
   phone: '+51 995 296 282',
   whatsapp: 'https://wa.me/51995296282',
+  whatsappMessage: 'Hola José, vi tu portafolio y me gustaría conversar sobre un proyecto.',
   linkedin: 'https://www.linkedin.com/in/jose-rondon-torres-3244501b3',
   avatar: 'https://avatars.githubusercontent.com/u/107903082?v=4',
   location: 'Perú',
