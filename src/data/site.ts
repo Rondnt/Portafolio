@@ -91,19 +91,6 @@ export const projects: Project[] = [
     featured: true,
   },
   {
-    name: 'Invicto',
-    year: '2026',
-    status: 'MVP en desarrollo',
-    summary:
-      'SaaS multi-tenant para gimnasios con una o varias sedes: membresías, control de acceso, caja, entrenamiento y reportes por sede o consolidados.',
-    stack: ['Angular', 'NestJS', 'TypeScript', 'PostgreSQL', 'JWT', 'Docker'],
-    images: [
-      { src: invictoLogin, alt: 'Pantalla de inicio de sesión de Invicto' },
-      { src: invictoDashboard, alt: 'Dashboard de Invicto con ingresos y estado de clientes' },
-    ],
-    featured: true,
-  },
-  {
     name: 'DeliciApp',
     year: '2026',
     summary:
@@ -142,6 +129,19 @@ export const projects: Project[] = [
       { src: averoInicio, alt: 'Portada de la landing page de AVERO Labs' },
       { src: averoServicios, alt: 'Sección de servicios de AVERO Labs' },
       { src: averoNosotros, alt: 'Sección sobre AVERO Labs con sus beneficios' },
+    ],
+    featured: true,
+  },
+  {
+    name: 'Invicto',
+    year: '2026',
+    status: 'MVP en desarrollo',
+    summary:
+      'SaaS multi-tenant para gimnasios con una o varias sedes: membresías, control de acceso, caja, entrenamiento y reportes por sede o consolidados.',
+    stack: ['Angular', 'NestJS', 'TypeScript', 'PostgreSQL', 'JWT', 'Docker'],
+    images: [
+      { src: invictoLogin, alt: 'Pantalla de inicio de sesión de Invicto' },
+      { src: invictoDashboard, alt: 'Dashboard de Invicto con ingresos y estado de clientes' },
     ],
     featured: true,
   },
