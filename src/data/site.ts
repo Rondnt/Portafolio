@@ -153,8 +153,6 @@ export const projects: Project[] = [
     summary:
       'POS por voz: el comerciante habla, un agente interpreta el cobro y Stellar lo ejecuta en testnet, con reparto on-chain.',
     stack: ['Next.js', 'NestJS', 'FastAPI', 'Soroban', 'Stellar'],
-    repo: 'https://github.com/Rondnt/VoxPay-Stellar',
-    live: 'https://voxpay--voxpay-gj.us-central1.hosted.app',
     images: [
       { src: voxpayLogin, alt: 'Pantalla de inicio de sesión de VoxPay' },
       { src: voxpayCobro, alt: 'Nuevo cobro por voz en VoxPay con la mascota Voxi' },
