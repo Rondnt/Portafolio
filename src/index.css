@@ -101,7 +101,124 @@ html {
   }
 }
 
+@keyframes tracking-in-expand-fwd {
+  0% {
+    letter-spacing: -0.5em;
+    transform: translateZ(-700px);
+    opacity: 0;
+  }
+  40% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateZ(0);
+    opacity: 1;
+  }
+}
+
+@keyframes text-focus-in {
+  0% {
+    filter: blur(12px);
+    opacity: 0;
+  }
+  100% {
+    filter: blur(0px);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-in-fwd-center {
+  0% {
+    transform: translateZ(-1400px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateZ(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-in-left {
+  0% {
+    transform: translateX(-1000px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-in-blurred-left {
+  0% {
+    transform: translateX(-1000px) scaleX(2.5) scaleY(0.2);
+    transform-origin: 100% 50%;
+    filter: blur(40px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0) scaleY(1) scaleX(1);
+    transform-origin: 50% 50%;
+    filter: blur(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-in-blurred-right {
+  0% {
+    transform: translateX(1000px) scaleX(2.5) scaleY(0.2);
+    transform-origin: 0% 50%;
+    filter: blur(40px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0) scaleY(1) scaleX(1);
+    transform-origin: 50% 50%;
+    filter: blur(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fade-in-bottom {
+  0% {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
 @layer components {
+  .fade-in-bottom {
+    animation: fade-in-bottom 0.6s cubic-bezier(0.39, 0.575, 0.565, 1) both;
+  }
+
+  .slide-in-left {
+    animation: slide-in-left 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  }
+
+  .slide-in-blurred-left {
+    animation: slide-in-blurred-left 0.6s cubic-bezier(0.23, 1, 0.32, 1) both;
+  }
+
+  .slide-in-blurred-right {
+    animation: slide-in-blurred-right 0.6s cubic-bezier(0.23, 1, 0.32, 1) both;
+  }
+
+  .tracking-in-expand-fwd {
+    animation: tracking-in-expand-fwd 0.8s cubic-bezier(0.215, 0.61, 0.355, 1) both;
+  }
+
+  .text-focus-in {
+    animation: text-focus-in 1s cubic-bezier(0.55, 0.085, 0.68, 0.53) both;
+  }
+
+  .slide-in-fwd-center {
+    animation: slide-in-fwd-center 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  }
+
   .slide-fwd-center {
     animation: slide-fwd-center 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
   }
@@ -115,7 +232,19 @@ html {
   }
 
   /* Below-the-fold sections hold their animations on the first frame until scrolled into view. */
-  [data-inview='false'] :is(.slide-fwd-center, .focus-in-expand, .fade-in) {
+  [data-inview='false']
+    :is(
+      .slide-fwd-center,
+      .focus-in-expand,
+      .fade-in,
+      .tracking-in-expand-fwd,
+      .text-focus-in,
+      .slide-in-fwd-center,
+      .slide-in-left,
+      .slide-in-blurred-left,
+      .slide-in-blurred-right,
+      .fade-in-bottom
+    ) {
     animation-play-state: paused;
   }
 
@@ -137,7 +266,14 @@ html {
     .slide-in-right,
     .slide-fwd-center,
     .focus-in-expand,
-    .fade-in {
+    .fade-in,
+    .tracking-in-expand-fwd,
+    .text-focus-in,
+    .slide-in-fwd-center,
+    .slide-in-left,
+    .slide-in-blurred-left,
+    .slide-in-blurred-right,
+    .fade-in-bottom {
       animation: none;
     }
   }

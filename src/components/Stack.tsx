@@ -1,7 +1,7 @@
-import type { CSSProperties } from 'react'
+import { useInView } from 'motion/react'
+import { useRef, type CSSProperties } from 'react'
 import { stackGroups } from '../data/site'
 import { techLogos, type TechName } from '../data/techLogos'
-import { Reveal } from './Reveal'
 
 const LIGHT_SURFACE = '#fffdf8'
 const DARK_SURFACE = '#1c1f26'
@@ -28,11 +28,14 @@ function brandColors(hex: string): CSSProperties {
   } as CSSProperties
 }
 
-function TechTile({ name }: { name: TechName }) {
+function TechTile({ name, delay }: { name: TechName; delay: number }) {
   const logo = techLogos[name]
 
   return (
-    <li className="flex aspect-square flex-col items-center justify-center gap-2 rounded-xl border border-line bg-surface p-2 text-center transition-transform hover:-translate-y-0.5">
+    <li
+      className="slide-in-fwd-center flex aspect-square flex-col items-center justify-center gap-2 rounded-xl border border-line bg-surface p-2 text-center transition-transform hover:-translate-y-0.5"
+      style={{ animationDelay: `${delay}ms` }}
+    >
       {'brand' in logo ? (
         <svg
           viewBox="0 0 24 24"
@@ -50,26 +53,42 @@ function TechTile({ name }: { name: TechName }) {
   )
 }
 
+// Entrance timeline (ms): title, then description, then each group's label followed by all its tiles
+// at once. The next group's label starts when the previous group's tiles come in.
+const DESCRIPTION_AT = 600
+const FIRST_GROUP_AT = 1000
+const TILES_AFTER_LABEL = 600
+
+const groupStarts = stackGroups.map((_, index) => FIRST_GROUP_AT + index * TILES_AFTER_LABEL)
+
 export function Stack() {
+  const ref = useRef<HTMLDivElement>(null)
+  const inView = useInView(ref, { once: true, amount: 0.15 })
+
   return (
     <section id="stack" className="border-t border-line py-20 md:py-28">
-      <div className="px-4 md:px-8 lg:px-24 xl:px-36">
-        <Reveal>
-          <h2 className="text-3xl font-medium tracking-tight md:text-4xl">Stack</h2>
-          <p className="mt-3 text-muted">
-            Herramientas que uso para construir, desplegar y dejar evidencia de que el sistema funciona.
-          </p>
-        </Reveal>
+      <div ref={ref} data-inview={inView} className="px-4 md:px-8 lg:px-24 xl:px-36">
+        <div className="[perspective:1000px]">
+          <h2 className="tracking-in-expand-fwd text-3xl font-medium tracking-tight md:text-4xl">Stack</h2>
+        </div>
+        <p className="fade-in mt-3 text-muted" style={{ animationDelay: `${DESCRIPTION_AT}ms` }}>
+          Herramientas que uso para construir, desplegar y dejar evidencia de que el sistema funciona.
+        </p>
         <div className="mt-12 grid gap-x-10 gap-y-12 md:grid-cols-2 xl:grid-cols-3">
           {stackGroups.map((group, index) => (
-            <Reveal key={group.title} delay={index * 0.06}>
-              <h3 className="font-mono text-sm text-accent-soft">{group.title}</h3>
-              <ul className="mt-4 grid grid-cols-[repeat(auto-fill,minmax(5.5rem,1fr))] gap-3">
+            <div key={group.title}>
+              <h3
+                className="text-focus-in font-mono text-sm text-accent-soft"
+                style={{ animationDelay: `${groupStarts[index]}ms` }}
+              >
+                {group.title}
+              </h3>
+              <ul className="mt-4 grid grid-cols-[repeat(auto-fill,minmax(5.5rem,1fr))] gap-3 [perspective:1000px]">
                 {group.items.map((item) => (
-                  <TechTile key={item} name={item} />
+                  <TechTile key={item} name={item} delay={groupStarts[index] + TILES_AFTER_LABEL} />
                 ))}
               </ul>
-            </Reveal>
+            </div>
           ))}
         </div>
       </div>

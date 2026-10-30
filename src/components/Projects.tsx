@@ -1,7 +1,7 @@
 import { ArrowUpRight, LockSimple } from '@phosphor-icons/react'
-import { useState } from 'react'
+import { useRef, useState, useSyncExternalStore, type RefObject } from 'react'
 import { projects, type Project } from '../data/site'
-import { Reveal } from './Reveal'
+import { useEntrance } from '../lib/useEntrance'
 
 function ProjectLinks({ project }: { project: Project }) {
   return (
@@ -101,40 +101,96 @@ function FeaturedProject({ project }: { project: Project }) {
   )
 }
 
+// Entrance timeline (ms): title, description, then each row of cards.
+const DESCRIPTION_AT = 400
+const FIRST_ROW_AT = 800
+const ROW_STEP = 400
+
+const twoCols = '(min-width: 1024px)'
+const threeCols = '(min-width: 1536px)'
+
+function subscribe(onChange: () => void) {
+  const queries = [twoCols, threeCols].map((q) => window.matchMedia(q))
+  queries.forEach((q) => q.addEventListener('change', onChange))
+  return () => queries.forEach((q) => q.removeEventListener('change', onChange))
+}
+
+function useColumns() {
+  return useSyncExternalStore(subscribe, () =>
+    window.matchMedia(threeCols).matches ? 3 : window.matchMedia(twoCols).matches ? 2 : 1,
+  )
+}
+
+function ProjectSlot({
+  project,
+  row,
+  clock,
+}: {
+  project: Project
+  row: number
+  clock: RefObject<number | null>
+}) {
+  const { ref, visible, delay } = useEntrance<HTMLDivElement>(clock, FIRST_ROW_AT + row * ROW_STEP)
+
+  return (
+    <div ref={ref} data-inview={visible} className="h-full">
+      <div
+        className={`h-full ${row % 2 === 0 ? 'slide-in-blurred-left' : 'slide-in-blurred-right'}`}
+        style={{ animationDelay: `${delay}ms` }}
+      >
+        <FeaturedProject project={project} />
+      </div>
+    </div>
+  )
+}
+
 export function Projects() {
   const featured = projects.filter((project) => project.featured)
   const rest = projects.filter((project) => !project.featured)
+  const clock = useRef<number | null>(null)
+  const columns = useColumns()
+  const { ref: headerRef, visible: headerVisible, delay: headerDelay } = useEntrance<HTMLDivElement>(clock, 0)
 
   return (
-    <section id="proyectos" className="border-t border-line py-20 md:py-28">
+    <section id="proyectos" className="overflow-x-clip border-t border-line py-20 md:py-28">
       <div className="px-4 md:px-8 lg:px-24 xl:px-36">
-        <Reveal>
-          <h2 className="text-3xl font-medium tracking-tight md:text-4xl">Proyectos</h2>
-          <p className="mt-3 max-w-[52ch] text-muted">
+        <div ref={headerRef} data-inview={headerVisible}>
+          <h2
+            className="slide-in-left text-3xl font-medium tracking-tight md:text-4xl"
+            style={{ animationDelay: `${headerDelay}ms` }}
+          >
+            Proyectos
+          </h2>
+          <p
+            className="fade-in mt-3 max-w-[52ch] text-muted"
+            style={{ animationDelay: `${headerDelay + DESCRIPTION_AT}ms` }}
+          >
             Sistemas en producción y con demo en vivo. Algunos son de clientes, así que su código es privado.
           </p>
-        </Reveal>
+        </div>
 
         <div className="mt-12 grid gap-8 lg:grid-cols-2 2xl:grid-cols-3">
           {featured.map((project, index) => (
-            <Reveal key={project.name} delay={index * 0.08} className="h-full">
-              <FeaturedProject project={project} />
-            </Reveal>
+            <ProjectSlot
+              key={project.name}
+              project={project}
+              row={Math.floor(index / columns)}
+              clock={clock}
+            />
           ))}
         </div>
 
         {rest.length > 0 ? (
           <div className="mt-16">
             {rest.map((project) => (
-              <Reveal key={project.name}>
-                <article className="grid gap-4 border-t border-line py-8 md:grid-cols-[minmax(0,220px)_1fr_auto] md:items-center">
-                  <h3 className="text-xl font-medium tracking-tight">{project.name}</h3>
-                  <p className="max-w-[58ch] text-sm leading-relaxed text-muted">
-                    {project.summary}
-                  </p>
-                  <ProjectLinks project={project} />
-                </article>
-              </Reveal>
+              <article
+                key={project.name}
+                className="grid gap-4 border-t border-line py-8 md:grid-cols-[minmax(0,220px)_1fr_auto] md:items-center"
+              >
+                <h3 className="text-xl font-medium tracking-tight">{project.name}</h3>
+                <p className="max-w-[58ch] text-sm leading-relaxed text-muted">{project.summary}</p>
+                <ProjectLinks project={project} />
+              </article>
             ))}
           </div>
         ) : null}
