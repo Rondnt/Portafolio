@@ -40,6 +40,14 @@
             window.matchMedia('(prefers-color-scheme: dark)').matches)
         if (dark) document.documentElement.classList.add('dark')
       } catch {}
+
+      // A reload always starts at the top: no restored scroll position and no leftover #section.
+      // Opening a shared link with a #section still goes there (handled once the app renders).
+      if ('scrollRestoration' in history) history.scrollRestoration = 'manual'
+      const navigation = performance.getEntriesByType('navigation')[0]
+      if (navigation && navigation.type === 'reload' && location.hash) {
+        history.replaceState(null, '', location.pathname + location.search)
+      }
     </script>
   </head>
   <body>

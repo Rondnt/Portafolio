@@ -4,11 +4,22 @@ import { Hero } from './components/Hero'
 import { Nav } from './components/Nav'
 import { Projects } from './components/Projects'
 import { Stack } from './components/Stack'
+import { useEffect } from 'react'
 import { useLocale } from './lib/locale'
 import { useSmoothScroll } from './lib/smoothScroll'
 
+// The page is rendered by React after the browser's own jump to #section has already run, so a
+// shared link like /#proyectos is resolved here once the sections exist.
+function useInitialHash() {
+  useEffect(() => {
+    const target = location.hash ? document.getElementById(location.hash.slice(1)) : null
+    if (target) requestAnimationFrame(() => target.scrollIntoView())
+  }, [])
+}
+
 export default function App() {
   useSmoothScroll()
+  useInitialHash()
   const { t } = useLocale()
 
   return (
