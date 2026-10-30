@@ -84,3 +84,9 @@ export const techLogos: Record<TechName, TechLogo> = {
   'Design Patterns': { concept: PuzzlePiece },
   'Clean Code': { concept: BracketsCurly },
 }
+
+// Only the names that aren't the same in English.
+export const techLabelsEn: Partial<Record<TechName, string>> = {
+  'Sistemas Multi-Agentes': 'Multi-Agent Systems',
+  Microservicios: 'Microservices',
+}

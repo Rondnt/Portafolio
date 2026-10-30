@@ -311,10 +311,18 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* Justified text needs a wide measure: on phone-width columns it opens rivers between words,
+   so narrow screens read left-aligned and justification starts at tablet width. */
 @layer base {
   p {
-    text-align: justify;
-    hyphens: auto;
+    text-wrap: pretty;
+  }
+
+  @media (min-width: 768px) {
+    p {
+      text-align: justify;
+      hyphens: auto;
+    }
   }
 }
 

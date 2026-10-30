@@ -1,7 +1,8 @@
 import { useInView } from 'motion/react'
 import { useRef, type CSSProperties } from 'react'
 import { stackGroups } from '../data/site'
-import { techLogos, type TechName } from '../data/techLogos'
+import { techLabelsEn, techLogos, type TechName } from '../data/techLogos'
+import { useLocale } from '../lib/locale'
 
 const LIGHT_SURFACE = '#fffdf8'
 const DARK_SURFACE = '#1c1f26'
@@ -30,25 +31,27 @@ function brandColors(hex: string): CSSProperties {
 
 function TechTile({ name, delay }: { name: TechName; delay: number }) {
   const logo = techLogos[name]
+  const { locale } = useLocale()
+  const label = locale === 'en' ? (techLabelsEn[name] ?? name) : name
 
   return (
     <li
-      className="slide-in-fwd-center flex aspect-square flex-col items-center justify-center gap-2 rounded-xl border border-line bg-surface p-2 text-center transition-transform hover:-translate-y-0.5"
+      className="slide-in-fwd-center flex aspect-square flex-col items-center justify-center gap-2 rounded-xl border border-line bg-surface p-1.5 text-center sm:p-2 transition-transform hover:-translate-y-0.5"
       style={{ animationDelay: `${delay}ms` }}
     >
       {'brand' in logo ? (
         <svg
           viewBox="0 0 24 24"
           aria-hidden
-          className="size-8 fill-current text-[var(--logo-light)] dark:text-[var(--logo-dark)]"
+          className="size-7 fill-current sm:size-8 text-[var(--logo-light)] dark:text-[var(--logo-dark)]"
           style={brandColors(logo.brand.hex)}
         >
           <path d={logo.brand.path} />
         </svg>
       ) : (
-        <logo.concept size={32} weight="duotone" aria-hidden className="text-accent-soft" />
+        <logo.concept weight="duotone" aria-hidden className="size-7 text-accent-soft sm:size-8" />
       )}
-      <span className="text-[11px] font-medium leading-tight">{name}</span>
+      <span className="text-[10px] font-medium leading-tight text-balance sm:text-[11px]">{label}</span>
     </li>
   )
 }
@@ -64,26 +67,27 @@ const groupStarts = stackGroups.map((_, index) => FIRST_GROUP_AT + index * TILES
 export function Stack() {
   const ref = useRef<HTMLDivElement>(null)
   const inView = useInView(ref, { once: true, amount: 0.15 })
+  const { locale, t } = useLocale()
 
   return (
-    <section id="stack" className="border-t border-line py-20 md:py-28">
+    <section id="stack" className="overflow-x-clip border-t border-line py-16 md:py-20 lg:py-28">
       <div ref={ref} data-inview={inView} className="px-4 md:px-8 lg:px-24 xl:px-36">
         <div className="[perspective:1000px]">
           <h2 className="tracking-in-expand-fwd text-3xl font-medium tracking-tight md:text-4xl">Stack</h2>
         </div>
         <p className="fade-in mt-3 text-muted" style={{ animationDelay: `${DESCRIPTION_AT}ms` }}>
-          Herramientas que uso para construir, desplegar y dejar evidencia de que el sistema funciona.
+          {t.stackDescription}
         </p>
-        <div className="mt-12 grid gap-x-10 gap-y-12 md:grid-cols-2 xl:grid-cols-3">
+        <div className="mt-10 grid gap-x-10 gap-y-10 md:mt-12 md:gap-y-12 lg:grid-cols-2 xl:grid-cols-3">
           {stackGroups.map((group, index) => (
-            <div key={group.title}>
+            <div key={group.title.es}>
               <h3
                 className="text-focus-in font-mono text-sm text-accent-soft"
                 style={{ animationDelay: `${groupStarts[index]}ms` }}
               >
-                {group.title}
+                {group.title[locale]}
               </h3>
-              <ul className="mt-4 grid grid-cols-[repeat(auto-fill,minmax(5.5rem,1fr))] gap-3 [perspective:1000px]">
+              <ul className="mt-4 grid grid-cols-[repeat(auto-fill,minmax(4.5rem,1fr))] gap-2 [perspective:1000px] sm:grid-cols-[repeat(auto-fill,minmax(5.5rem,1fr))] sm:gap-3">
                 {group.items.map((item) => (
                   <TechTile key={item} name={item} delay={groupStarts[index] + TILES_AFTER_LABEL} />
                 ))}
